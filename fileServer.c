@@ -1,3 +1,5 @@
+#include <sys/socket.h> //works on server
+#include <netinet/in.h>  //works on server
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
@@ -5,9 +7,7 @@
 #include <sys/types.h>
 #include <pthread.h>
 #include <semaphore.h>
-
-//i dont think we need this when we run on the server, but clion was giving me issues
-#include <winsock2.h>
+#include <winsock2.h>  //remove when on server
 
 #define RESOURCE_SERVER_PORT 108
 #define BUF_SIZE 256
