@@ -1,5 +1,6 @@
 #include <sys/socket.h> //works on server
 #include <netinet/in.h>  //works on server
+#include <signal.h>
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
@@ -38,17 +39,22 @@ void * processClientRequest(void * request) {
     int bytesReadFromClient = 0;
     while ( (bytesReadFromClient = read(connectionToClient, receiveLine, BUF_SIZE)) > 0);
         receiveLine[bytesReadFromClient] = 0;
+        //copies receiveLine to userInput ao we dont modify the original
+        char userRequest[strlen(receiveLine)];
 
-        // prints to buffer
-        snprintf(sendLine, sizeof(sendLine), "true");
+        //separates out first token (should be either read, save, or delete)
+        char * token;
+        token = strtok(userRequest, " ");
+        while (token != NULL) {
+            //printing out token to see if its separating them right
+            snprintf(sendLine, sizeof(sendLine), "token is %s\n", token);
+            write(connectionToClient, sendLine, strlen(sendLine));
+            token = strtok(NULL, " ");
+        }
 
-        /* Writes to client
-        printf("Sending s\n", sendLine);
-        write(connectionToClient, sendLine, strlen(sendLine));
-         */
 
         //clears receiveLine
-        bzero(&receiveLine, sizeof(receiveLine));
+        bzero(&receiveLine, sizeof(receiveLine)); //angry on clion -> works on server
         close(connectionToClient);
     }
 
@@ -72,13 +78,13 @@ int main(int argc, char *argv[]) {
         exit(-1);
     }
 
-    // register for Ctrl+C being sent to close connection
+     //register for Ctrl+C being sent to close connection
     struct sigaction sigIntHandler;
     sigIntHandler.sa_handler = closeConnection;
     sigIntHandler.sa_flags = 0;
 
-    sigaction(SIGINT, &sigIntHandler, NULL);
-    listen(serverSocket);
+   sigaction(SIGINT, &sigIntHandler, NULL);
+    listen(serverSocket, 10)
 
     while (1) {
         connectionToClient = accept(serverSocket, (struct sockaddr *) NULL, NULL);
@@ -87,3 +93,4 @@ int main(int argc, char *argv[]) {
 
     }
 }
+
