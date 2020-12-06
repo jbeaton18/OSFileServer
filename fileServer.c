@@ -88,10 +88,12 @@ int main(int argc, char *argv[]) {
     sigIntHandler.sa_flags = 0;
 
     sigaction(SIGINT, &sigIntHandler, NULL);
-    listen(serverSocket, 10)
+    listen(serverSocket, 10);
 
     while (1) {
         connectionToClient = accept(serverSocket, (struct sockaddr *) NULL, NULL);
+
+        //threads for requests
         pthread_t someThread;
         pthread_create(&someThread, NULL, processClientRequest, (void *)&connectionToClient);
 
