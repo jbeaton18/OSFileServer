@@ -23,8 +23,13 @@ void closeConnection() {
 
 
 //TODO  read filename -> return size and contents of file
+void * readFile(char * fileName) {
+    printf("Started read function for file: %s", fileName);
+
+}
 
 //TODO write filename n:[contents] -> saves files in cache with n being size
+
 
 //TODO delete filename -> deletes file from cache
 
@@ -61,32 +66,25 @@ void * processClientRequest(void * request) {
 
         //Compares strings to see if the command is read, save, or delete
         if (strcmp(strings[0], "save")==0) {
-            printf("True!");
+            printf("Starting save function\n");
         }
         else if (strcmp(strings[0], "delete")==0) {
-            printf("True!");
+            printf("Starting delete function\n");
         }
         else if (strcmp(strings[0], "read")==0) {
-            printf("True!");
+            printf("Starting read function\n");
+            readFile(strings[1]);
         }
         else {
-            printf("False!");
-
+            printf("Not a valid command\n");
+            closeConnection();
         }
-
 
         // Zero out the receive line so we do not get artifacts from before
         bzero(&receiveLine, sizeof(receiveLine));
         close(connectionToClient);
     }
 }
-
-
-
-
-
-
-
 
 int main(int argc, char *argv[]) {
     int connectionToClient, bytesReadFromClient;
