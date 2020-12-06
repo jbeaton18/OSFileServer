@@ -10,7 +10,7 @@
 #include <semaphore.h>
 
 
-#define RESOURCE_SERVER_PORT 1024
+#define RESOURCE_SERVER_PORT 1088
 #define BUF_SIZE 256
 int serverSocket;
 
@@ -37,30 +37,55 @@ void * processClientRequest(void * request) {
     char sendLine[BUF_SIZE];
 
     int bytesReadFromClient = 0;
-    while ( (bytesReadFromClient = read(connectionToClient, receiveLine, BUF_SIZE)) > 0);
+    // Read the request that the client has
+    while ( (bytesReadFromClient = read(connectionToClient, receiveLine, BUF_SIZE)) > 0) {
+        //add null terminator
         receiveLine[bytesReadFromClient] = 0;
-        //copies receiveLine to userInput ao we dont modify the original
-        char userRequest[strlen(receiveLine)];
-        strcpy(userRequest, receiveLine);
+         //copy receive line to new string
+         char userRequest[strlen(receiveLine)];
+         strcpy(userRequest, receiveLine);
 
-        //Shows what the client sent
-        printf("Received: %s\n", receiveLine);
-
-        //separates out first token (should be either read, save, or delete)
+        /* Breaks into multiple strings and store into array strings[]
+           First element will be command, second will be file name, if there
+           is a third it is the size:[contents] */
         char * token;
+        char *strings[3];
+        int counter = 0;
         token = strtok(userRequest, " ");
+
         while (token != NULL) {
-            //printing out token to see if its separating them right
-            snprintf(sendLine, sizeof(sendLine), "token is %s\n", token);
-            write(connectionToClient, sendLine, strlen(sendLine));
+            strings[counter] = token;
             token = strtok(NULL, " ");
         }
 
+        //Compares strings to see if the command is read, save, or delete
+        if (strcmp(strings[0], "save")) {
+            printf("True!");
+        }
+        if (strcmp(strings[0], "delete")) {
+            printf("True!");
+        }
+        if (strcmp(strings[0], "read")) {
+            printf("True!");
+        }
+        else {
+            printf("False!");
 
-        //clears receiveLine
-        bzero(&receiveLine, sizeof(receiveLine)); //angry on clion -> works on server
+        }
+
+
+        // Zero out the receive line so we do not get artifacts from before
+        bzero(&receiveLine, sizeof(receiveLine));
         close(connectionToClient);
     }
+}
+
+
+
+
+
+
+
 
 int main(int argc, char *argv[]) {
     int connectionToClient, bytesReadFromClient;
