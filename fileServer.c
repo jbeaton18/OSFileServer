@@ -10,7 +10,7 @@
 #include <semaphore.h>
 #include <winsock2.h>  //remove when on server
 
-#define RESOURCE_SERVER_PORT 108
+#define RESOURCE_SERVER_PORT 1024
 #define BUF_SIZE 256
 int serverSocket;
 
@@ -41,6 +41,10 @@ void * processClientRequest(void * request) {
         receiveLine[bytesReadFromClient] = 0;
         //copies receiveLine to userInput ao we dont modify the original
         char userRequest[strlen(receiveLine)];
+        strcpy(userRequest, receiveLine);
+
+        // Shows what the client sent
+        printf("Received: %s\n", receiveLine);
 
         //separates out first token (should be either read, save, or delete)
         char * token;
@@ -83,7 +87,7 @@ int main(int argc, char *argv[]) {
     sigIntHandler.sa_handler = closeConnection;
     sigIntHandler.sa_flags = 0;
 
-   sigaction(SIGINT, &sigIntHandler, NULL);
+    sigaction(SIGINT, &sigIntHandler, NULL);
     listen(serverSocket, 10)
 
     while (1) {
