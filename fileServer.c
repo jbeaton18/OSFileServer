@@ -8,7 +8,7 @@
 #include <sys/types.h>
 #include <pthread.h>
 #include <semaphore.h>
-#include <winsock2.h>  //remove when on server
+
 
 #define RESOURCE_SERVER_PORT 1024
 #define BUF_SIZE 256
@@ -43,7 +43,7 @@ void * processClientRequest(void * request) {
         char userRequest[strlen(receiveLine)];
         strcpy(userRequest, receiveLine);
 
-        // Shows what the client sent
+        //Shows what the client sent
         printf("Received: %s\n", receiveLine);
 
         //separates out first token (should be either read, save, or delete)
