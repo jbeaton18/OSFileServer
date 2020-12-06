@@ -10,7 +10,7 @@
 #include <semaphore.h>
 
 
-#define RESOURCE_SERVER_PORT 1088
+#define RESOURCE_SERVER_PORT 1084
 #define BUF_SIZE 256
 int serverSocket;
 
@@ -41,9 +41,9 @@ void * processClientRequest(void * request) {
     while ( (bytesReadFromClient = read(connectionToClient, receiveLine, BUF_SIZE)) > 0) {
         //add null terminator
         receiveLine[bytesReadFromClient] = 0;
-         //copy receive line to new string
-         char userRequest[strlen(receiveLine)];
-         strcpy(userRequest, receiveLine);
+        //copy receive line to new string
+        char userRequest[strlen(receiveLine)];
+        strcpy(userRequest, receiveLine);
 
         /* Breaks into multiple strings and store into array strings[]
            First element will be command, second will be file name, if there
@@ -56,16 +56,17 @@ void * processClientRequest(void * request) {
         while (token != NULL) {
             strings[counter] = token;
             token = strtok(NULL, " ");
+            counter++;
         }
 
         //Compares strings to see if the command is read, save, or delete
-        if (strcmp(strings[0], "save")) {
+        if (strcmp(strings[0], "save")==0) {
             printf("True!");
         }
-        if (strcmp(strings[0], "delete")) {
+        else if (strcmp(strings[0], "delete")==0) {
             printf("True!");
         }
-        if (strcmp(strings[0], "read")) {
+        else if (strcmp(strings[0], "read")==0) {
             printf("True!");
         }
         else {
@@ -107,7 +108,7 @@ int main(int argc, char *argv[]) {
         exit(-1);
     }
 
-     //register for Ctrl+C being sent to close connection
+    //register for Ctrl+C being sent to close connection
     struct sigaction sigIntHandler;
     sigIntHandler.sa_handler = closeConnection;
     sigIntHandler.sa_flags = 0;
@@ -124,4 +125,3 @@ int main(int argc, char *argv[]) {
 
     }
 }
-
