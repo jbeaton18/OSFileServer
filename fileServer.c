@@ -40,9 +40,9 @@ void * readFile(char * fileName) {
             fileAndPath[i] = '\0';
         }
     }
-    printf("Reading from file at %s\n", fileAndPath);
-    char contents[BUF_SIZE];
 
+    //gets file contents
+    char contents[BUF_SIZE];
     FILE *inputStream = fopen(fileAndPath, "r");
     FILE *outputStream= fopen(fileAndPath, "r");
     if (inputStream && outputStream) {
@@ -55,11 +55,15 @@ void * readFile(char * fileName) {
             }
         }
     }
-    printf("%s", contents);
+    fclose(inputStream);
+    fclose(outputStream);
 
+    //gets file size
     struct stat fileInfo;
     stat(fileAndPath, &fileInfo);
-    printf("filesize = %ld\n", fileInfo.st_size);
+
+    //prints
+    printf("%ld:%s", fileInfo.st_size, contents);
 
 }
 
