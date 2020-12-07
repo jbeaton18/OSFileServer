@@ -32,7 +32,9 @@ void * readFile(char * fileName) {
 
 
 //TODO delete filename -> deletes file from cache
-
+void * deleteFile(char * fileName) {
+    printf("Delete process started for: %s", fileName);
+}
 
 
 //processes what was sent from the client, called by the popup thread
