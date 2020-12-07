@@ -55,7 +55,7 @@ void * deleteFile(char * fileName) {
     printf("%s", filePath);
     strncat(filePath, fileName, strlen(save_dir));
     printf("%s", filePath);
-    status = remove(save_dir +fileName);
+    status = remove(filePath);
     if(status == 0){
         printf("%s was successfully deleted.\n", fileName);
     }
