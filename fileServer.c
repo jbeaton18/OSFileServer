@@ -1,5 +1,5 @@
-#include <sys/socket.h> //works on server
-#include <netinet/in.h>  //works on server
+#include <sys/socket.h>
+#include <netinet/in.h>
 #include <signal.h>
 #include <stdlib.h>
 #include <string.h>
@@ -24,31 +24,36 @@ void closeConnection() {
 
 
 void * readFile(char * fileName) {
-    printf("Started to read: %s\n", fileName);
-    char save_dirCopy[strlen(save_dir)];
-    char  fileNameCopy[strlen(fileName)];
-    strcpy(save_dirCopy, save_dir);
+    //gets full filepath
+    char fileAndPath[BUF_SIZE];
+    strcpy(fileAndPath, save_dir);
+    for(int i=0; i < strlen(fileAndPath); i++){
+        if(fileAndPath[i] == '\n'){
+            fileAndPath[i] = '\0';
+        }
+    }
+    strcat(fileAndPath, fileName);
+    printf("Opening file from: %s\n", fileAndPath);
 
 
 
-    char filePath[strlen(save_dirCopy)+ strlen(fileNameCopy)];
-    strcpy(filePath, save_dirCopy);
-
-
-
-    printf("%s\n", filePath);
 
 
 }
 
+
 //TODO write filename n:[contents] -> saves files in cache with n being size
 
 
-//TODO delete filename -> deletes file from cache
 void * deleteFile(char * fileName) {
     int status;
     char fileAndPath[BUF_SIZE];
 
+    for(int i=0; i < strlen(save_dir); i++){
+        if(save_dir[i] == '\n'){
+            save_dir[i] = '\0';
+        }
+    }
     strcpy(fileAndPath, save_dir);
     strcat(fileAndPath, fileName);
 
@@ -57,6 +62,8 @@ void * deleteFile(char * fileName) {
             fileAndPath[i] = '\0';
         }
     }
+
+    printf("--%s--\n", fileAndPath);
     status = remove(fileAndPath);
     if(status == 0){
         printf("Successfully deleted: %s", fileName);
@@ -126,7 +133,7 @@ int main(int argc, char *argv[]) {
     /*read directory path from config file and save to save_dir
       MAKE SURE TO EDIT CONFIG FILE TO CHANGE DIRECTORY */
     char buffer[BUF_SIZE];
-    char* configPath = "/home/stu/jbeaton18/config";
+    char* configPath = "/home/stu/kkaiser17/finalProject/config";
     FILE *config = fopen(configPath, "r");
     fgets(buffer, BUF_SIZE, config);
     strcpy(save_dir, buffer);
