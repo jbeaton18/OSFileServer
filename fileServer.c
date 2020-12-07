@@ -53,18 +53,21 @@ void * readFile(char * fileName) {
             else {
                 break;
             }
+            //gets file size
+            struct stat fileInfo;
+            stat(fileAndPath, &fileInfo);
+
+            //prints
+            printf("%ld:%s", fileInfo.st_size, contents);
+            fclose(inputStream);
+            fclose(outputStream);
+
         }
     }
-    fclose(inputStream);
-    fclose(outputStream);
-
-    //gets file size
-    struct stat fileInfo;
-    stat(fileAndPath, &fileInfo);
-
-    //prints
-    printf("%ld:%s", fileInfo.st_size, contents);
-
+    //the file isnt there
+    else {
+        printf("0:\n");
+    }
 }
 
 
