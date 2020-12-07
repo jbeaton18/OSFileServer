@@ -47,7 +47,7 @@ void * readFile(char * fileName) {
 //TODO delete filename -> deletes file from cache
 void * deleteFile(char * fileName) {
     int status;
-    char fileAndPath;
+    char fileAndPath[BUF_SIZE];
     char dirCopy[strlen(save_dir)];
     strncpy(dirCopy,save_dir, strlen(save_dir)-1);
 
