@@ -33,7 +33,19 @@ void * readFile(char * fileName) {
 
 //TODO delete filename -> deletes file from cache
 void * deleteFile(char * fileName) {
-    printf("Delete process started for: %s", fileName);
+    int status;
+    char fileAndPath[256];
+
+    strcat(fileAndPath, fileName);
+    status = remove(fileAndPath);
+
+    if(status == 0){
+        printf("%s was successfully deleted.\n", fileName);
+    }
+    else{
+        printf("\n ERROR\n");
+        printf("Unable to delete %s.\n", fileName);
+    }
 }
 
 
@@ -72,6 +84,7 @@ void * processClientRequest(void * request) {
         }
         else if (strcmp(strings[0], "delete")==0) {
             printf("Starting delete function\n");
+            deleteFile(strings[1]);
         }
         else if (strcmp(strings[0], "read")==0) {
             printf("Starting read function\n");
