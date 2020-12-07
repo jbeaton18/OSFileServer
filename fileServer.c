@@ -48,10 +48,9 @@ void * readFile(char * fileName) {
 void * deleteFile(char * fileName) {
     int status;
     char fileAndPath[BUF_SIZE];
-
+    strcat(fileAndPath, save_dir);
     strcat(fileAndPath, fileName);
     status = remove(fileAndPath);
-
     if(status == 0){
         printf("%s was successfully deleted.\n", fileName);
     }
@@ -120,7 +119,7 @@ int main(int argc, char *argv[]) {
     /*read directory path from config file and save to save_dir
       MAKE SURE TO EDIT CONFIG FILE TO CHANGE DIRECTORY */
     char buffer[BUF_SIZE];
-    char* configPath = "/home/stu/kkaiser17/finalProject/config";
+    char* configPath = "/home/stu/jbeaton18/config";
     FILE *config = fopen(configPath, "r");
     fgets(buffer, BUF_SIZE, config);
     save_dir = buffer;
