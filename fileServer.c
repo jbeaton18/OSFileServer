@@ -44,6 +44,10 @@ void * readFile(char * fileName) {
 
 //TODO write filename n:[contents] -> saves files in cache with n being size
 
+void * writeFile(char * fileName, char * size, char * contents){
+
+}
+
 
 void * deleteFile(char * fileName) {
     int status;
