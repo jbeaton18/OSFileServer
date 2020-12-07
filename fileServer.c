@@ -8,7 +8,8 @@
 #include <sys/types.h>
 #include <pthread.h>
 #include <semaphore.h>
-
+#include <fcntl.h>
+#include <sys/stat.h>
 
 #define RESOURCE_SERVER_PORT 1082 //Katie -> 1081
 #define BUF_SIZE 256
@@ -56,9 +57,16 @@ void * readFile(char * fileName) {
     }
     printf("%s", contents);
 
-
+    struct stat fileInfo;
+    stat(fileAndPath, &fileInfo);
+    printf("filesize = %ld\n", fileInfo.st_size);
 
 }
+
+
+
+
+
 
 
 //TODO write filename n:[contents] -> saves files in cache with n being size
