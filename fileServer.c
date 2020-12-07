@@ -10,9 +10,10 @@
 #include <semaphore.h>
 
 
-#define RESOURCE_SERVER_PORT 1084 //Katie -> 1084
+#define RESOURCE_SERVER_PORT 1081 //Katie -> 1081
 #define BUF_SIZE 256
 int serverSocket;
+char * save_dir;
 
 //closes connection with client
 void closeConnection() {
@@ -22,9 +23,21 @@ void closeConnection() {
 }
 
 
-//TODO  read filename -> return size and contents of file
 void * readFile(char * fileName) {
-    printf("Started read function for file: %s", fileName);
+    printf("Started to read: %s\n", fileName);
+    char save_dirCopy[strlen(save_dir)];
+    char  fileNameCopy[strlen(fileName)];
+    strcpy(save_dirCopy, save_dir);
+
+
+
+    char filePath[strlen(save_dirCopy)+ strlen(fileNameCopy)];
+    strcpy(filePath, save_dirCopy);
+
+
+
+    printf("%s\n", filePath);
+
 
 }
 
@@ -47,6 +60,7 @@ void * deleteFile(char * fileName) {
         printf("Unable to delete %s.\n", fileName);
     }
 }
+
 
 
 //processes what was sent from the client, called by the popup thread
@@ -102,13 +116,17 @@ void * processClientRequest(void * request) {
 }
 
 int main(int argc, char *argv[]) {
-    //read from config file
-    //MAKE SURE TO EDIT CONFIG FILE TO CHANGE DIRECTORY
+
+    /*read directory path from config file and save to save_dir
+      MAKE SURE TO EDIT CONFIG FILE TO CHANGE DIRECTORY */
     char buffer[BUF_SIZE];
     char* configPath = "/home/stu/kkaiser17/finalProject/config";
     FILE *config = fopen(configPath, "r");
     fgets(buffer, BUF_SIZE, config);
-    printf("%s", buffer);
+    save_dir = buffer;
+    fclose(config);
+
+
 
 
     int connectionToClient, bytesReadFromClient;
