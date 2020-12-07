@@ -34,7 +34,7 @@ void * readFile(char * fileName) {
 //TODO delete filename -> deletes file from cache
 void * deleteFile(char * fileName) {
     int status;
-    char fileAndPath[256];
+    char fileAndPath[BUF_SIZE];
 
     strcat(fileAndPath, fileName);
     status = remove(fileAndPath);
