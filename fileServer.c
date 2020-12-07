@@ -26,7 +26,6 @@ void closeConnection() {
 
 void * readFile(char * fileName) {
     char fileAndPath[BUF_SIZE];
-
     for(int i=0; i < strlen(save_dir); i++){
         if(save_dir[i] == '\n'){
             save_dir[i] = '\0';
@@ -34,7 +33,6 @@ void * readFile(char * fileName) {
     }
     strcpy(fileAndPath, save_dir);
     strcat(fileAndPath, fileName);
-
     for(int i=0; i < strlen(fileAndPath); i++){
         if(fileAndPath[i] == '\n'){
             fileAndPath[i] = '\0';
@@ -61,7 +59,6 @@ void * readFile(char * fileName) {
             printf("%ld:%s", fileInfo.st_size, contents);
             fclose(inputStream);
             fclose(outputStream);
-
         }
     }
     //the file isnt there
@@ -69,14 +66,6 @@ void * readFile(char * fileName) {
         printf("0:\n");
     }
 }
-
-
-
-
-
-
-
-//TODO write filename n:[contents] -> saves files in cache with n being size
 
 void * writeFile(char * fileName, char * contents){
     /*   FILE * filePtr;
@@ -150,8 +139,6 @@ void * deleteFile(char * fileName) {
     }
 }
 
-
-
 //processes what was sent from the client, called by the popup thread
 void * processClientRequest(void * request) {
     int connectionToClient = *(int *)request;
@@ -215,9 +202,6 @@ int main(int argc, char *argv[]) {
     fgets(buffer, BUF_SIZE, config);
     strcpy(save_dir, buffer);
     fclose(config);
-
-
-
 
     int connectionToClient, bytesReadFromClient;
 
