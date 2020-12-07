@@ -48,10 +48,8 @@ void * readFile(char * fileName) {
 void * deleteFile(char * fileName) {
     int status;
     char fileAndPath[BUF_SIZE];
-    char dirCopy[strlen(save_dir)];
-    strncpy(dirCopy,save_dir, strlen(save_dir)-1);
 
-    strcat(fileAndPath,dirCopy);
+    strncat(fileAndPath,save_dir, strlen(save_dir)-1);
     printf("%s",fileAndPath);
     strcat(fileAndPath, fileName);
     printf("%s",fileAndPath);
