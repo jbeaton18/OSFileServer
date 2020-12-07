@@ -68,46 +68,52 @@ void * readFile(char * fileName) {
 }
 
 void * writeFile(char * fileName, char * contents){
-    /*   FILE * filePtr;
-       char pathCopy[BUF_SIZE];
-       char sizeBuf[BUF_SIZE];
-       char contentsBuf[BUF_SIZE];
-       int counter;
+    char fileAndPath[BUF_SIZE];
+    char size[BUF_SIZE];
+    char contentsBuf[BUF_SIZE];
+    int counter;
 
-       for(int i=0; i < strlen(save_dir); i++){
-           if(save_dir[i] == '\n'){
-               save_dir[i] = '\0';
-           }
-       }
-       strcpy(pathCopy, save_dir);
-       strcat(pathCopy, fileName);
-       for(int i=0; i < strlen(pathCopy); i++){
-           if(pathCopy[i] == '\n'){
-               pathCopy[i] = '\0';
-           }
-       }
 
-       filePtr = fopen(pathCopy, "w");
-       if (filePtr == NULL){
-           printf("Unable to save file.\n");
-       }
-       else{
-           for(int i=0; i<strlen(contents); i++){
-               if(contents[i] == ':'){
-                   counter = i;
-               }
-           }
-           for(int i=0; i<strlen(contents); i++){
-               if(contents[i] != ':' & i < counter){
-                   strcpy(sizeBuf[i], contents[i]);
-               }
-               else if(contents[i] != ':' & i > counter){
-                   strcpy(contentsBuf[i],contents[i]);
-               }
-           }
-       }
-        */
-   }
+    for(int i=0; i < strlen(save_dir); i++){
+        if(save_dir[i] == '\n'){
+            save_dir[i] = '\0';
+        }
+    }
+    strcpy(fileAndPath, save_dir);
+    strcat(fileAndPath, fileName);
+    for(int i=0; i < strlen(fileAndPath); i++){
+        if(fileAndPath[i] == '\n'){
+            fileAndPath[i] = '\0';
+        }
+    }
+    printf("%s", fileAndPath);
+
+    for (int i = 0; i< (strlen(contents)); i++) {
+        if (contents[i] != ':') {
+            size[i] = contents[i];
+
+        } else {
+            contentsBuf[i] = contents[i];
+        }
+    }
+        int contentSize = atoi(size);
+        printf("%d\n", contentSize);
+        printf("%s\n", contentsBuf);
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 void * deleteFile(char * fileName) {
@@ -183,7 +189,6 @@ void * processClientRequest(void * request) {
         }
         else {
             printf("Not a valid command\n");
-            closeConnection();
         }
 
         // Zero out the receive line so we do not get artifacts from before
