@@ -13,7 +13,7 @@
 #define RESOURCE_SERVER_PORT 1081 //Katie -> 1081
 #define BUF_SIZE 256
 int serverSocket;
-char * save_dir;
+char save_dir[BUF_SIZE];
 
 //closes connection with client
 void closeConnection() {
@@ -49,10 +49,14 @@ void * deleteFile(char * fileName) {
     int status;
     char fileAndPath[BUF_SIZE];
 
-    strncat(fileAndPath,save_dir, strlen(save_dir)-1);
-    printf("%s",fileAndPath);
+    strcpy(fileAndPath, save_dir);
     strcat(fileAndPath, fileName);
-    printf("%s",fileAndPath);
+
+    for(int i=0; i < strlen(fileAndPath); i++){
+        if(fileAndPath[i] == '\n'){
+            fileAndPath[i] = '\0';
+        }
+    }
     status = remove(fileAndPath);
     if(status == 0){
         printf("Successfully deleted: %s", fileName);
@@ -125,7 +129,7 @@ int main(int argc, char *argv[]) {
     char* configPath = "/home/stu/jbeaton18/config";
     FILE *config = fopen(configPath, "r");
     fgets(buffer, BUF_SIZE, config);
-    save_dir = buffer;
+    strcpy(save_dir, buffer);
     fclose(config);
 
 
