@@ -44,8 +44,8 @@ void * readFile(char * fileName) {
 
 //TODO write filename n:[contents] -> saves files in cache with n being size
 
-void * writeFile(char * fileName, char * size, char * contents){
-
+void * writeFile(char * fileName, char * contents){
+    printf("--%s-- --%s--", fileName, contents);
 }
 
 
@@ -110,8 +110,9 @@ void * processClientRequest(void * request) {
         }
 
         //Compares strings to see if the command is read, save, or delete
-        if (strcmp(strings[0], "save")==0) {
+        if (strcmp(strings[0], "write")==0) {
             printf("Starting save function\n");
+            writeFile(strings[1], strings[2]);
         }
         else if (strcmp(strings[0], "delete")==0) {
             printf("Starting delete function\n");
