@@ -47,15 +47,14 @@ void * readFile(char * fileName) {
 //TODO delete filename -> deletes file from cache
 void * deleteFile(char * fileName) {
     int status;
-    char filePath[BUF_SIZE];
-    char dirCopy[strlen(save_dir)];
-    strcpy(dirCopy,save_dir);
-    printf("%s", dirCopy);
-    strncat(filePath, dirCopy, strlen(save_dir));
-    printf("%s", filePath);
-    strncat(filePath, fileName, strlen(save_dir));
-    printf("%s", filePath);
-    status = remove(filePath);
+    char fileAndPath[BUF_SIZE];
+
+    for(int i=0; i< save_dir; i++){
+        fileAndPath[i] = save_dir[i];
+    }
+    strcat(fileAndPath, fileName);
+
+    status = remove(fileAndPath);
     if(status == 0){
         printf("%s was successfully deleted.\n", fileName);
     }
