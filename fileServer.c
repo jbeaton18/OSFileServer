@@ -45,7 +45,44 @@ void * readFile(char * fileName) {
 //TODO write filename n:[contents] -> saves files in cache with n being size
 
 void * writeFile(char * fileName, char * contents){
-    printf("--%s-- --%s--", fileName, contents);
+    FILE * filePtr;
+    char pathCopy[BUF_SIZE];
+    char sizeBuf[BUF_SIZE];
+    char contentsBuf[BUF_SIZE];
+    int counter;
+
+    for(int i=0; i < strlen(save_dir); i++){
+        if(save_dir[i] == '\n'){
+            save_dir[i] = '\0';
+        }
+    }
+    strcpy(pathCopy, save_dir);
+    strcat(pathCopy, fileName);
+    for(int i=0; i < strlen(pathCopy); i++){
+        if(pathCopy[i] == '\n'){
+            pathCopy[i] = '\0';
+        }
+    }
+
+    filePtr = fopen(pathCopy, "w");
+    if (filePtr == NULL){
+        printf("Unable to save file.\n");
+    }
+    else{
+        for(int i=0; i<strlen(contents); i++){
+            if(contents[i] == ':'){
+                counter = i;
+            }
+        }
+        for(int i=0; i<strlen(contents); i++){
+            if(contents[i] != ':' & i < counter){
+                strcpy(sizeBuf[i], contents[i]);
+            }
+            else if(contents[i] != ':' & i > counter){
+                strcpy(contentsBuf[i],contents[i]);
+            }
+        }
+    }
 }
 
 
