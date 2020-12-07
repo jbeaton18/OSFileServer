@@ -10,7 +10,7 @@
 #include <semaphore.h>
 
 
-#define RESOURCE_SERVER_PORT 1084
+#define RESOURCE_SERVER_PORT 1084 //Katie -> 1084
 #define BUF_SIZE 256
 int serverSocket;
 
@@ -87,6 +87,15 @@ void * processClientRequest(void * request) {
 }
 
 int main(int argc, char *argv[]) {
+    //read from config file
+    //MAKE SURE TO EDIT CONFIG FILE TO CHANGE DIRECTORY
+    char buffer[BUF_SIZE];
+    char* configPath = "/home/stu/kkaiser17/finalProject/config";
+    FILE *config = fopen(configPath, "r");
+    fgets(buffer, BUF_SIZE, config);
+    printf("%s", buffer);
+
+
     int connectionToClient, bytesReadFromClient;
 
     // Create a server socket
