@@ -10,7 +10,7 @@
 #include <semaphore.h>
 
 
-#define RESOURCE_SERVER_PORT 1081 //Katie -> 1081
+#define RESOURCE_SERVER_PORT 1082 //Katie -> 1081
 #define BUF_SIZE 256
 int serverSocket;
 char save_dir[BUF_SIZE];
@@ -24,18 +24,37 @@ void closeConnection() {
 
 
 void * readFile(char * fileName) {
-    //gets full filepath
     char fileAndPath[BUF_SIZE];
+
+    for(int i=0; i < strlen(save_dir); i++){
+        if(save_dir[i] == '\n'){
+            save_dir[i] = '\0';
+        }
+    }
     strcpy(fileAndPath, save_dir);
+    strcat(fileAndPath, fileName);
+
     for(int i=0; i < strlen(fileAndPath); i++){
         if(fileAndPath[i] == '\n'){
             fileAndPath[i] = '\0';
         }
     }
-    strcat(fileAndPath, fileName);
-    printf("Opening file from: %s\n", fileAndPath);
+    printf("Reading from file at %s\n", fileAndPath);
+    char contents[BUF_SIZE];
 
-
+    FILE *inputStream = fopen(fileAndPath, "r");
+    FILE *outputStream= fopen(fileAndPath, "r");
+    if (inputStream && outputStream) {
+        while(1) {
+            if (fgets(contents, 256, inputStream)) {
+                fputs(contents, outputStream);
+            }
+            else {
+                break;
+            }
+        }
+    }
+    printf("%s", contents);
 
 
 
@@ -45,45 +64,46 @@ void * readFile(char * fileName) {
 //TODO write filename n:[contents] -> saves files in cache with n being size
 
 void * writeFile(char * fileName, char * contents){
-    FILE * filePtr;
-    char pathCopy[BUF_SIZE];
-    char sizeBuf[BUF_SIZE];
-    char contentsBuf[BUF_SIZE];
-    int counter;
+    /*   FILE * filePtr;
+       char pathCopy[BUF_SIZE];
+       char sizeBuf[BUF_SIZE];
+       char contentsBuf[BUF_SIZE];
+       int counter;
 
-    for(int i=0; i < strlen(save_dir); i++){
-        if(save_dir[i] == '\n'){
-            save_dir[i] = '\0';
-        }
-    }
-    strcpy(pathCopy, save_dir);
-    strcat(pathCopy, fileName);
-    for(int i=0; i < strlen(pathCopy); i++){
-        if(pathCopy[i] == '\n'){
-            pathCopy[i] = '\0';
-        }
-    }
+       for(int i=0; i < strlen(save_dir); i++){
+           if(save_dir[i] == '\n'){
+               save_dir[i] = '\0';
+           }
+       }
+       strcpy(pathCopy, save_dir);
+       strcat(pathCopy, fileName);
+       for(int i=0; i < strlen(pathCopy); i++){
+           if(pathCopy[i] == '\n'){
+               pathCopy[i] = '\0';
+           }
+       }
 
-    filePtr = fopen(pathCopy, "w");
-    if (filePtr == NULL){
-        printf("Unable to save file.\n");
-    }
-    else{
-        for(int i=0; i<strlen(contents); i++){
-            if(contents[i] == ':'){
-                counter = i;
-            }
-        }
-        for(int i=0; i<strlen(contents); i++){
-            if(contents[i] != ':' & i < counter){
-                strcpy(sizeBuf[i], contents[i]);
-            }
-            else if(contents[i] != ':' & i > counter){
-                strcpy(contentsBuf[i],contents[i]);
-            }
-        }
-    }
-}
+       filePtr = fopen(pathCopy, "w");
+       if (filePtr == NULL){
+           printf("Unable to save file.\n");
+       }
+       else{
+           for(int i=0; i<strlen(contents); i++){
+               if(contents[i] == ':'){
+                   counter = i;
+               }
+           }
+           for(int i=0; i<strlen(contents); i++){
+               if(contents[i] != ':' & i < counter){
+                   strcpy(sizeBuf[i], contents[i]);
+               }
+               else if(contents[i] != ':' & i > counter){
+                   strcpy(contentsBuf[i],contents[i]);
+               }
+           }
+       }
+        */
+   }
 
 
 void * deleteFile(char * fileName) {
