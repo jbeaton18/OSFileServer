@@ -49,12 +49,12 @@ void * deleteFile(char * fileName) {
     int status;
     char fileAndPath[BUF_SIZE];
 
-    for(int i=0; i< save_dir; i++){
+    for(int i=0; i< strlen(save_dir); i++){
         fileAndPath[i] = save_dir[i];
     }
-    printf(fileAndPath);
+    printf("%s",fileAndPath);
     strcat(fileAndPath, fileName);
-    printf(fileAndPath);
+    printf("%s",fileAndPath);
     status = remove(fileAndPath);
     if(status == 0){
         printf("%s was successfully deleted.\n", fileName);
