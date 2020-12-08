@@ -67,39 +67,37 @@ void * readFile(char * fileName) {
     }
 }
 
-void * writeFile(char * fileName, char * size, char * contents){
+void * writeFile(char * fileName, char * size, char * contents) {
     char fileAndPath[BUF_SIZE];
-
     char contentsBuf[BUF_SIZE];
-    int counter;
 
+    printf("Size: %s\n", size);
+    printf("Contents: %s\n", contents);
 
-    for(int i=0; i < strlen(save_dir); i++){
-        if(save_dir[i] == '\n'){
+    int intSize = atoi(size);
+
+    for (int j = 0; j < intSize; j++) {
+        contentsBuf[j] = contents[j];
+    }
+    printf("Smaller contents: %s\n", contentsBuf);
+
+    for (int i = 0; i < strlen(save_dir); i++) {
+        if (save_dir[i] == '\n') {
             save_dir[i] = '\0';
         }
     }
     strcpy(fileAndPath, save_dir);
     strcat(fileAndPath, fileName);
-    for(int i=0; i < strlen(fileAndPath); i++){
-        if(fileAndPath[i] == '\n'){
+    for (int i = 0; i < strlen(fileAndPath); i++) {
+        if (fileAndPath[i] == '\n') {
             fileAndPath[i] = '\0';
         }
     }
-    printf("%s\n", fileAndPath);
-    printf("%s\n", size);
-    printf("%s\n", contents);
+    printf("File path: %s\n", fileAndPath);
 
 
 
-
-
-
-
-
-
-
-
+}
 
 
 
