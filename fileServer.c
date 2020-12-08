@@ -11,7 +11,7 @@
 #include <fcntl.h>
 #include <sys/stat.h>
 
-#define RESOURCE_SERVER_PORT 1083 //Katie -> 1081
+#define RESOURCE_SERVER_PORT 1084 //Katie -> 1081
 #define BUF_SIZE 256
 int serverSocket;
 char save_dir[BUF_SIZE];
@@ -71,16 +71,7 @@ void * writeFile(char * fileName, char * size, char * contents) {
     char fileAndPath[BUF_SIZE];
     char contentsBuf[BUF_SIZE];
 
-    printf("Size: %s\n", size);
-    printf("Contents: %s\n", contents);
-
-    int intSize = atoi(size);
-
-    for (int j = 0; j < intSize; j++) {
-        contentsBuf[j] = contents[j];
-    }
-    printf("Smaller contents: %s\n", contentsBuf);
-
+    //gets full file path
     for (int i = 0; i < strlen(save_dir); i++) {
         if (save_dir[i] == '\n') {
             save_dir[i] = '\0';
@@ -93,16 +84,24 @@ void * writeFile(char * fileName, char * size, char * contents) {
             fileAndPath[i] = '\0';
         }
     }
-    printf("File path: %s\n", fileAndPath);
 
+    //takes size and makes contents of file only that big
+    int intSize = atoi(size);
+    for (int j = 0; j < intSize; j++) {
+        contentsBuf[j] = contents[j];
+    }
 
+    //opens and writes contents to file
+    FILE *outputStream= fopen(fileAndPath, "w");
 
+     if (outputStream != NULL) {
+         fprintf(outputStream, "%s", contentsBuf);
+         fclose(outputStream);
+     }
+     else {
+         printf("file not found");
+     }
 }
-
-
-
-
-
 
 void * deleteFile(char * fileName) {
     int status;
