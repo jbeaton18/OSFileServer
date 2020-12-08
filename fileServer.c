@@ -121,7 +121,6 @@ void * deleteFile(char * fileName) {
         }
     }
 
-    printf("--%s--\n", fileAndPath);
     status = remove(fileAndPath);
     if(status == 0){
         printf("Successfully deleted: %s", fileName);
@@ -189,7 +188,7 @@ int main(int argc, char *argv[]) {
     /*read directory path from config file and save to save_dir
       MAKE SURE TO EDIT CONFIG FILE TO CHANGE DIRECTORY */
     char buffer[BUF_SIZE];
-    char* configPath = "/home/stu/kkaiser17/finalProject/config";
+    char* configPath = "/home/stu/jbeaton18/config";
     FILE *config = fopen(configPath, "r");
     fgets(buffer, BUF_SIZE, config);
     strcpy(save_dir, buffer);
