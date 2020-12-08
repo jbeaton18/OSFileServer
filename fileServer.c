@@ -11,7 +11,7 @@
 #include <fcntl.h>
 #include <sys/stat.h>
 
-#define RESOURCE_SERVER_PORT 1082 //Katie -> 1081
+#define RESOURCE_SERVER_PORT 1083 //Katie -> 1081
 #define BUF_SIZE 256
 int serverSocket;
 char save_dir[BUF_SIZE];
@@ -67,9 +67,9 @@ void * readFile(char * fileName) {
     }
 }
 
-void * writeFile(char * fileName, char * contents){
+void * writeFile(char * fileName, char * size, char * contents){
     char fileAndPath[BUF_SIZE];
-    char size[BUF_SIZE];
+
     char contentsBuf[BUF_SIZE];
     int counter;
 
@@ -86,21 +86,11 @@ void * writeFile(char * fileName, char * contents){
             fileAndPath[i] = '\0';
         }
     }
-    printf("%s", fileAndPath);
+    printf("%s\n", fileAndPath);
+    printf("%s\n", size);
+    printf("%s\n", contents);
 
-    for (int i = 0; i< (strlen(contents)); i++) {
-        if (contents[i] != ':') {
-            size[i] = contents[i];
 
-        } else {
-            contentsBuf[i] = contents[i];
-        }
-    }
-        int contentSize = atoi(size);
-        printf("%d\n", contentSize);
-        printf("%s\n", contentsBuf);
-
-}
 
 
 
@@ -164,20 +154,20 @@ void * processClientRequest(void * request) {
            First element will be command, second will be file name, if there
            is a third it is the size:[contents] */
         char * token;
-        char *strings[3];
+        char *strings[4];
         int counter = 0;
         token = strtok(userRequest, " ");
 
         while (token != NULL) {
             strings[counter] = token;
-            token = strtok(NULL, " ");
+            token = strtok(NULL, " :");
             counter++;
         }
 
         //Compares strings to see if the command is read, save, or delete
         if (strcmp(strings[0], "write")==0) {
             printf("Starting save function\n");
-            writeFile(strings[1], strings[2]);
+            writeFile(strings[1], strings[2], strings[3]);
         }
         else if (strcmp(strings[0], "delete")==0) {
             printf("Starting delete function\n");
